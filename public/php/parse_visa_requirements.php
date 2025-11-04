@@ -11,8 +11,8 @@ if (!isset($_GET['n']) || $_GET['n'] !== getenv('SCRIPT_NONCE')) {
 }
 
 // settings:
-$wikipedia_export_url = "http://en.wikipedia.org/w/index.php?title=Special:Export&action=submit&pages=";
-$wikipedia_url = "http://en.wikipedia.org/wiki/";
+$wikipedia_export_url = "https://en.wikipedia.org/w/index.php?title=Special:Export&action=submit&pages=";
+$wikipedia_url = "https://en.wikipedia.org/wiki/";
 $data_folder = '../data';
 $wikipedia_cache_folder = $data_folder . "/wikipedia_export_cache";
 $json_archive_folder = $data_folder . "/visa_requirements";
@@ -65,6 +65,50 @@ if (!file_exists($wikipedia_cache_filename)) {
     $load_from_cache = false;
 }
 
+function fetchWikipediaArticleXML($title) {
+    // API endpoint for English Wikipedia
+    $endpoint = 'https://en.wikipedia.org/w/api.php';
+    // Parameters to get plain text extract
+    $params = [
+        'action' => 'query',
+        'titles' => $title,
+        // 'prop' => 'extracts',
+        // 'explaintext' => 1, // Get plain text
+        // 'origin' => '*' // Required for CORS
+        'export' => 1,
+        'exportnowrap' => 1,
+        'format' => 'xml'
+    ];
+
+    $url = $endpoint . '?' . http_build_query($params);
+
+    // Use cURL for making the request
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    // Set a meaningful User-Agent, as required by the API
+    curl_setopt($ch, CURLOPT_USERAGENT, "MyWikipediaExporter (myemail@example.com)"); 
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    if ($response === false) {
+        return "Error fetching data.";
+    }
+
+    return $response;
+
+    // $data = json_decode($response, true);
+    // $pages = $data['query']['pages'];
+    // $pageId = array_keys($pages)[0];
+
+    // // Check if page exists and return the extract
+    // if (isset($pages[$pageId]['extract'])) {
+    //     return $pages[$pageId]['extract'];
+    // } else {
+    //     return "Page not found.";
+    // }
+}
+
 if (file_exists($wikipedia_cache_filename) && $load_from_cache) {
     echo "Loading data from cache file '" . $wikipedia_cache_filename . "'<br/>\n";
 
@@ -83,14 +127,12 @@ if (file_exists($wikipedia_cache_filename) && $load_from_cache) {
 
     foreach ($countries as $country) {
         $pagename = $country[2];
-        $export_url = $wikipedia_export_url . urlencode($pagename);
+
         if ($debug) {
-            echo "Exporting pages from Wikipedia: " . $export_url . "<br/><br/>\n\n";
+            echo "Exporting XML from Wikipedia: " . $pagename . "<br/><br/>\n\n";
         }
 
-        if (!$xml = file_get_contents($export_url)) {
-            echo "Error loading pages from Wikipedia";
-        }
+        $xml = fetchWikipediaArticleXML(rawurlencode($pagename));
 
         $parser->loadXML($xml);
         $pages = $parser->doc->getElementsByTagName('page');
@@ -101,7 +143,7 @@ if (file_exists($wikipedia_cache_filename) && $load_from_cache) {
             $root->appendChild($page);
         }
 
-        // duplicates check:
+        // Duplicates check:
         $count = 0;
         foreach ($countries as $country2) {
             if ($country[0] == $country2[0]) {
