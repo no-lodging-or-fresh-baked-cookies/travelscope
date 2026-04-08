@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import THREE from 'three';
 import Detector from './three/Detector';
 
 const mapVersion = '5.1.1.5';

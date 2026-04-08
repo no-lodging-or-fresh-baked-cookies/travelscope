@@ -1,8 +1,8 @@
 import $ from "jquery";
 import "jquery-mousewheel";
-import * as THREE from "three";
+import THREE from 'three';
 import * as TWEEN from "tween.js";
-import * as d3 from "d3";
+import d3 from 'd3';
 
 import "../thirdparty/RequestAnimationFrame";
 import Stats from "../thirdparty/Stats";

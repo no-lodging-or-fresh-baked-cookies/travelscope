@@ -58,15 +58,20 @@ node_modules
 # Development folder
 dev
 
-# Production folder
-public/assets
+# Vite build output
+dist
+
+# Legacy Gulp build leftovers — these directories were build output under
+# the old Gulp pipeline. Under Vite, public/ is the canonical static dir,
+# so we track public/assets and public/data but still ignore the stale
+# copies of generated css/js/images that linger in working checkouts.
 public/css
-public/data
 public/js
 public/images
 public/src
 public/index.html
 public/content
+public/data/wikipedia_export_cache
 
 .env
 .nvmrc

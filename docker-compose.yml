@@ -1,0 +1,19 @@
+services:
+  travelscope:
+    build: .
+    ports:
+      - "3100:3000"
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public
+      - ./vite.config.js:/app/vite.config.js
+
+  scraper:
+    image: php:8.2-cli
+    profiles: ["scraper"]
+    working_dir: /app/public/php
+    volumes:
+      - ./public:/app/public
+    # The script uses relative paths (../data) and `require_once` against
+    # files next to itself, so it must be run from public/php as CWD.
+    command: ["php", "parse_visa_requirements.php"]

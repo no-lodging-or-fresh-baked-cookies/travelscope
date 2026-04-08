@@ -1,6 +1,4 @@
-import 'babel-polyfill';
-
-// import './scripts/react-big-calendar';
+import './scss/main.scss';
 
 import './client/thirdparty/bootstrap';
 

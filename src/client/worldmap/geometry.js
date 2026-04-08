@@ -1,4 +1,4 @@
-import * as THREE from "three";
+import THREE from 'three';
 import * as TWEEN from "tween.js";
 
 import Config from "../config";

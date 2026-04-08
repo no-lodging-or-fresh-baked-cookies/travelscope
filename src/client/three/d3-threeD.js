@@ -1,5 +1,5 @@
-import * as THREE from 'three';
-import * as d3 from 'd3';
+import THREE from 'three';
+import d3 from 'd3';
 
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
