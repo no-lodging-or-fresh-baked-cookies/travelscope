@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import THREE from 'three';
 
 /**
  * @author Markus Lerner / http://markuslerner.com, based on work by Eberhard Graether / http://egraether.com/ and Mark Lundin 	/ http://mark-lundin.com

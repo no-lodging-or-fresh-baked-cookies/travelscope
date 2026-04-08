@@ -1,25 +1,25 @@
 <?php
 /*
 ============================================================================
-XMLParser Class
+LegacyXMLParser Class
 2012-04-20
 
 Markus Lerner
 http://www.markuslerner.com
 
-converted from XMLParser.as
+converted from LegacyXMLParser.as
 
 using the DOM extension from php5
 ============================================================================
 */
 
-class XMLParser {
+class LegacyXMLParser {
 	
 	var $debug = false;
 	var $doc;
 
 	
-	function XMLParser() {
+	function __construct() {
 		$this->doc = new DOMDocument();
 		$this->doc->preserveWhiteSpace = false;
 	}
@@ -30,11 +30,11 @@ class XMLParser {
 		
 		if ($this->doc->load($url)) {
 			if($this->debug) {
-				echo "XMLParser | load | SUCCESS\n";
+				echo "LegacyXMLParser | load | SUCCESS\n";
 			}
 		} else {
 			if($this->debug) {
-				echo "XMLParser | load | ERROR\n";
+				echo "LegacyXMLParser | load | ERROR\n";
 			}
 		}
 		
@@ -47,11 +47,11 @@ class XMLParser {
 		
 		if ($this->doc->loadXML($string)) {
 			if($this->debug) {
-				echo "XMLParser | loadXML | SUCCESS\n";
+				echo "LegacyXMLParser | loadXML | SUCCESS\n";
 			}
 		} else {
 			if($this->debug) {
-				echo "XMLParser | loadXML | ERROR\n";
+				echo "LegacyXMLParser | loadXML | ERROR\n";
 			}
 		}
 		
@@ -103,7 +103,7 @@ class XMLParser {
 	
 	
 	function toString() {
-		return "[XMLParser]";
+		return "[LegacyXMLParser]";
 	}
 
 }
@@ -112,7 +112,7 @@ class XMLParser {
 /*
 header("Content-type: text/html; charset=UTF-8");
 
-$myParser = new XMLParser();
+$myParser = new LegacyXMLParser();
 $myParser->debug = false;
 $myParser->load('main.xml');
 

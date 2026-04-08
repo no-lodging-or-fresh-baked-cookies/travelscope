@@ -1,13 +1,19 @@
 <?php
 error_reporting(E_ERROR);
 
-require __DIR__ . '/../../vendor/autoload.php';
-$dotenv = new Dotenv\Dotenv(__DIR__ . '/../../');
-$dotenv->load();
+// CLI mode skips the browser nonce check; the legacy web entrypoint still
+// gates on $_GET['n'] === SCRIPT_NONCE when invoked over HTTP.
+$is_cli = (php_sapi_name() === 'cli');
 
-if (!isset($_GET['n']) || $_GET['n'] !== getenv('SCRIPT_NONCE')) {
-    http_response_code(403);
-    die('Access not allowed');
+if (!$is_cli) {
+    require __DIR__ . '/../../vendor/autoload.php';
+    $dotenv = new Dotenv\Dotenv(__DIR__ . '/../../');
+    $dotenv->load();
+
+    if (!isset($_GET['n']) || $_GET['n'] !== getenv('SCRIPT_NONCE')) {
+        http_response_code(403);
+        die('Access not allowed');
+    }
 }
 
 // settings:
@@ -34,13 +40,13 @@ if (!file_exists($json_archive_folder)) {
     mkdir($json_archive_folder);
 }
 
-require_once 'class.XMLParser.php';
+require_once 'class.LegacyXMLParser.php';
 require_once 'inc/parse_wikitext.inc.php';
 require_once 'inc/countries.inc.php';
 
 echo sizeof($countries) . " Wikipedia pages in list.<br/>\n";
 
-$parser = new XMLParser();
+$parser = new LegacyXMLParser();
 $parser->debug = false;
 
 date_default_timezone_set('Europe/Berlin');

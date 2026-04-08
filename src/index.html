@@ -25,18 +25,19 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-    <link rel="stylesheet" type="text/css" href="assets/fonts/fonts.css?v=1.1">
+    <link rel="stylesheet" type="text/css" href="/assets/fonts/fonts.css?v=1.1">
 
-    <link rel="stylesheet" type="text/css" href="css/main.css" />
-
-    <script language="JavaScript" type="text/javascript">
+    <script>
       var IS_DESKTOP = true;
-      // var CDN_URL = 'https://www.markuslerner.com/travelscope/';
-      var CDN_URL = 'http://localhost:3000/';
-      var VISA_REQUIREMENTS_URL = 'data/visa_requirements/2025-05-29_11.22_visa_requirements.json'; // first time africa is complete and data parsed correctly: 2016-10-07_14.12_visa_requirements.json
+      var CDN_URL = '/';
+      var VISA_REQUIREMENTS_URL = 'data/visa_requirements/2026-04-08_23.04_visa_requirements.json';
     </script>
 
-    <script type="text/javascript" src="js/client.js"></script>
+    <!-- d3 v3 is a UMD that relies on top-level `this === window`. Load it
+         as a classic script so its IIFE runs in script context, then the
+         d3-shim re-exports window.d3 for ESM consumers. -->
+    <script src="/vendor-d3.min.js"></script>
+    <script type="module" src="/client.js"></script>
 
   </head>
 

@@ -1,36 +1,36 @@
 <?php
 /*
 ============================================================================
-XMLParser Class
+LegacyXMLParser Class
 2012-04-20
 
 Markus Lerner
 http://www.markuslerner.com
 
-converted from XMLParser.as
+converted from LegacyXMLParser.as
 
 using the DOM XML extension from php4
 ============================================================================
 */
 
-class XMLParser {
+class LegacyXMLParser {
 	
 	var $debug = true;
 	var $doc;
 
 	
-	function XMLParser() {
+	function LegacyXMLParser() {
 	}
 	
 
 	function load($url) {
 		if ($this->doc = domxml_open_file($url)) {
 			if($this->debug) {
-				echo "XMLParser | load | SUCCESS\n";
+				echo "LegacyXMLParser | load | SUCCESS\n";
 			}
 		} else {
 			if($this->debug) {
-				echo "XMLParser | load | ERROR\n";
+				echo "LegacyXMLParser | load | ERROR\n";
 			}
 		}
 	}
@@ -38,11 +38,11 @@ class XMLParser {
 	function loadXML($str) {
 		if ($this->doc = domxml_open_mem($str)) {
 			if($this->debug) {
-				echo "XMLParser | loadXML | SUCCESS\n";
+				echo "LegacyXMLParser | loadXML | SUCCESS\n";
 			}
 		} else {
 			if($this->debug) {
-				echo "XMLParser | loadXML | ERROR\n";
+				echo "LegacyXMLParser | loadXML | ERROR\n";
 			}
 		}
 	}
@@ -90,7 +90,7 @@ class XMLParser {
 	
 	
 	function toString() {
-		return "[XMLParser]";
+		return "[LegacyXMLParser]";
 	}
 
 }
@@ -99,7 +99,7 @@ class XMLParser {
 /*
 header("Content-type: text/html; charset=UTF-8");
 
-$myParser = new XMLParser();
+$myParser = new LegacyXMLParser();
 $myParser->debug = false;
 $myParser->load('main.xml');
 

@@ -1,26 +1,26 @@
 <?php
 /*
 ============================================================================
-XMLParser Class
+LegacyXMLParser Class
 2006-06-02
 
 Markus Lerner
 http://www.markuslerner.com
 
-converted from XMLParser.as
+converted from LegacyXMLParser.as
 ============================================================================
 */
 
 if(substr(phpversion(), 0, 1) > 4) {
-	require_once("class.XMLParserPHP5.php");
+	require_once("class.LegacyXMLParserPHP5.php");
 } else {
-	require_once("class.XMLParserPHP4.php");
+	require_once("class.LegacyXMLParserPHP4.php");
 }
 
 /*
 header("Content-type: text/html; charset=UTF-8");
 
-$myParser = new XMLParser();
+$myParser = new LegacyXMLParser();
 $myParser->debug = false;
 $myParser->load('main.xml');
 
