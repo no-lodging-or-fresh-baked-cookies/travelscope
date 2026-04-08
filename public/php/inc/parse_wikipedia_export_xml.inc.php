@@ -35,6 +35,40 @@ foreach ($pages as $page) {
                         $string .= ", \"destinations\": [";
 
                         foreach ($destinations as $key => $destination) {
+                            // Post-process notes: strip wikitext citation/template
+                            // markup and <ref> tags. The upstream row regex in
+                            // parse_wikitext.inc.php sometimes truncates templates
+                            // mid-expression (nested {{...}} or pipe-split cells),
+                            // so we scrub here where all the noise converges.
+                            $note = $destination['notes'] ?? '';
+                            // Balanced templates first, repeatedly for nesting.
+                            for ($i = 0; $i < 5; $i++) {
+                                $new = preg_replace('/\{\{[^{}]*\}\}/s', '', $note);
+                                if ($new === $note) break;
+                                $note = $new;
+                            }
+                            // Unbalanced/truncated template fragments: strip any
+                            // remaining `{{...` up to the nearest `}}` or end of
+                            // string. Covers cases where upstream ate the close.
+                            $note = preg_replace('/\{\{.*?(\}\}|$)/s', '', $note);
+                            // <ref>...</ref> and self-closing <ref ... />.
+                            $note = preg_replace('/<ref\b[^>]*\/\s*>/i', '', $note);
+                            $note = preg_replace('/<ref\b[^>]*>.*?<\/ref>/is', '', $note);
+                            // Bare `{}` / `{ }` leftover from mangled templates.
+                            $note = preg_replace('/\{\s*\}/', '', $note);
+                            // Notes that are now *only* punctuation / whitespace
+                            // after stripping should become empty.
+                            $trimmed = trim($note, " ,.;:-\t\n\r");
+                            if ($trimmed === '') {
+                                $note = '';
+                            } else {
+                                // Collapse runs of commas/whitespace left behind.
+                                $note = preg_replace('/\s*,\s*(,\s*)+/', ', ', $note);
+                                $note = preg_replace('/\s{2,}/', ' ', $note);
+                                $note = trim($note, " ,\t\n\r");
+                            }
+                            $destination['notes'] = $note;
+
                             $d = "\t{ \"d_name\": " . json_encode($destination['d_name']) . ",
 								\"visa_required\": " . json_encode($destination['visa_required']) . ",
 								\"visa_title\": " . json_encode($destination['visa_title']) . ",
