@@ -63,21 +63,29 @@ const config = {
   sphereEnabled: false,
   sphereVisible: false,
 
-  colorCountryDefault: new THREE.Color(0x777777),
+  // Base map colors. Default fill is dark slate so any visa state stands
+  // out clearly against it; hover/selected stay white for contrast.
+  colorCountryDefault: new THREE.Color(0x1e293b),
   colorCountryHover: new THREE.Color(0xFFFFFF),
   colorCountrySelected: new THREE.Color(0xFFFFFF),
 
-  colorVisaNotRequired: new THREE.Color(0x6b7e00), // 0xb7c801
-  colorVisaOnArrival: new THREE.Color(0xb3c400), // 0xfff000
-  colorVisaETA: new THREE.Color(0xfcff00), // 0xff9000
-  colorVisaFreeEU: new THREE.Color(0x0055FF), // 0x0055FF
-  colorVisaRequired: new THREE.Color(0x777777), // 0xFF0000
-  colorVisaSpecial: new THREE.Color(0xa52c6d), // 0xff9000
-  colorVisaAdmissionRefused: new THREE.Color(0xaa0000), //
-  colorVisaDataNotAvailable: new THREE.Color(0x444444), // 0xFF00FF
+  // Visa-state palette ordered loosely "easiest to hardest". Cool greens
+  // for free travel, warm yellows/ambers for limited entry, reds for
+  // restricted, violet for special arrangements, slate for unknown.
+  colorVisaNotRequired: new THREE.Color(0x22c55e),     // green-500
+  colorVisaOnArrival: new THREE.Color(0x84cc16),       // lime-500
+  colorVisaETA: new THREE.Color(0xfacc15),             // yellow-400
+  colorVisaFreeEU: new THREE.Color(0x14b8a6),          // teal-500
+  colorVisaRequired: new THREE.Color(0xef4444),        // red-500
+  colorVisaSpecial: new THREE.Color(0xa855f7),         // purple-500
+  colorVisaAdmissionRefused: new THREE.Color(0x7f1d1d),// red-900
+  colorVisaDataNotAvailable: new THREE.Color(0x475569),// slate-600
 
-  colorZeroDestinations: new THREE.Color(0x242e1d), // 0x65bddd (blue), 0xffde00 (orange), 0x54ff00 (green), 0xffffff, 0xffffcc (yellow), 0x3c2062 (purple), 0x305c00 green
-  colorMaxDestinations: new THREE.Color(0xdfeb06), // 0x0035cc (blue), 0xcc0000 (red), 0x555555, 0xffe26c (yellow 2), 0xf2ff00 (yellow 3)
+  // Heatmap gradient (used by destinations / GDP / population modes).
+  // Indigo-950 → amber-400 gives a perceptually wide range and stays
+  // legible on the dark base map.
+  colorZeroDestinations: new THREE.Color(0x1e1b4b),
+  colorMaxDestinations: new THREE.Color(0xfacc15),
 
   materialSphere: new THREE.MeshPhongMaterial({ color: 0x888888, transparent: false, opacity: 1.0, wireframe: false, shading: THREE.SmoothShading, side: THREE.DoubleSide }),
 
